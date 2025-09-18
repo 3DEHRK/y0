@@ -4,6 +4,8 @@
 #include "GameFramework/PlayerController.h"
 #include "PlayerControllerBase.generated.h"
 
+class UInventoryWidget;
+
 UCLASS()
 class Y_API APlayerControllerBase : public APlayerController
 {
@@ -11,6 +13,7 @@ class Y_API APlayerControllerBase : public APlayerController
 public:
 	virtual void SetupInputComponent() override;
 	virtual void BeginPlay() override;
+	virtual void OnPossess(APawn* InPawn) override;
 
 private:
 	// Movement/look
@@ -36,4 +39,9 @@ private:
 	void Hotbar6();
 	void Hotbar7();
 	void Hotbar8();
+
+	void EnsureInventoryUI();
+
+	UPROPERTY()
+	UInventoryWidget* InventoryUI = nullptr;
 };

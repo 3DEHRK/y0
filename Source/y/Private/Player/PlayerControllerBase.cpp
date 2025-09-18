@@ -40,21 +40,34 @@ void APlayerControllerBase::SetupInputComponent()
 void APlayerControllerBase::BeginPlay()
 {
 	Super::BeginPlay();
+	EnsureInventoryUI();
+}
 
-	if (IsLocalController())
+void APlayerControllerBase::OnPossess(APawn* InPawn)
+{
+	Super::OnPossess(InPawn);
+	EnsureInventoryUI();
+}
+
+void APlayerControllerBase::EnsureInventoryUI()
+{
+	if (!IsLocalController()) return;
+
+	APawn* P = GetPawn();
+	if (!P) return;
+	UInventoryComponent* Inv = P->FindComponentByClass<UInventoryComponent>();
+	if (!Inv) return;
+
+	UBuildableRegistry* Reg = GetGameInstance() ? GetGameInstance()->GetSubsystem<UBuildableRegistry>() : nullptr;
+
+	if (!InventoryUI)
 	{
-		APawn* P = GetPawn();
-		if (!P) return;
-		UInventoryComponent* Inv = P->FindComponentByClass<UInventoryComponent>();
-		if (!Inv) return;
-
-		UBuildableRegistry* Reg = GetGameInstance() ? GetGameInstance()->GetSubsystem<UBuildableRegistry>() : nullptr;
-		UInventoryWidget* UI = CreateWidget<UInventoryWidget>(this, UInventoryWidget::StaticClass());
-		if (UI)
-		{
-			UI->Setup(Inv, Reg);
-			UI->AddToViewport(0);
-		}
+		InventoryUI = CreateWidget<UInventoryWidget>(this, UInventoryWidget::StaticClass());
+	}
+	if (InventoryUI && !InventoryUI->IsInViewport())
+	{
+		InventoryUI->Setup(Inv, Reg);
+		InventoryUI->AddToViewport(0);
 	}
 }
 
