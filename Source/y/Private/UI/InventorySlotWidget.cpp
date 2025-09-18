@@ -36,13 +36,15 @@ TSharedRef<SWidget> UInventorySlotWidget::RebuildWidget()
 	Icon->SetBrushSize(FVector2D(64.f, 64.f));
 
 	CountText = WidgetTree->ConstructWidget<UTextBlock>(UTextBlock::StaticClass(), TEXT("CountText"));
-	CountText->SetJustification(ETextJustify::Right);
+	CountText->SetJustification(ETextJustify::Center);
 	CountText->SetColorAndOpacity(FSlateColor(FLinearColor::White));
+	CountText->SetShadowOffset(FVector2D(1.f, 1.f));
+	CountText->SetShadowColorAndOpacity(FLinearColor(0.f, 0.f, 0.f, 0.75f));
 	if (UOverlaySlot* TS = Overlay->AddChildToOverlay(CountText))
 	{
-		TS->SetHorizontalAlignment(HAlign_Right);
-		TS->SetVerticalAlignment(VAlign_Bottom);
-		TS->SetPadding(FMargin(2.f));
+		TS->SetHorizontalAlignment(HAlign_Center);
+		TS->SetVerticalAlignment(VAlign_Top);
+		TS->SetPadding(FMargin(0.f, 0.f, 0.f, 0.f));
 	}
 
 	return Super::RebuildWidget();
@@ -66,7 +68,7 @@ void UInventorySlotWidget::SetData(const FItemStack& Stack, UTexture2D* IconText
 	}
 	if (CountText)
 	{
-		const bool bShowCount = Stack.Count > 1;
+		const bool bShowCount = Stack.Count > 0; // show any positive amount
 		CountText->SetText(bShowCount ? FText::AsNumber(Stack.Count) : FText());
 		CountText->SetVisibility(bShowCount ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
 	}
