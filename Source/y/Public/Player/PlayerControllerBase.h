@@ -15,6 +15,12 @@ public:
 	virtual void BeginPlay() override;
 	virtual void OnPossess(APawn* InPawn) override;
 
+	// Console helpers
+	UFUNCTION(exec)
+	void Give(int32 TypeId, int32 Count = 1);
+	UFUNCTION(exec)
+	void RecreateInventoryUI();
+
 private:
 	// Movement/look
 	void MoveForward(float Value);
@@ -40,7 +46,7 @@ private:
 	void Hotbar7();
 	void Hotbar8();
 
-	void EnsureInventoryUI();
+	void EnsureInventoryUI(bool bForceRecreate = false);
 
 	UPROPERTY()
 	UInventoryWidget* InventoryUI = nullptr;

@@ -17,6 +17,11 @@
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 
 // ********** Begin Class APlayerControllerBase ****************************************************
+#define FID_Documents_Unreal_Projects_y_Source_y_Public_Player_PlayerControllerBase_h_12_RPC_WRAPPERS_NO_PURE_DECLS \
+	DECLARE_FUNCTION(execRecreateInventoryUI); \
+	DECLARE_FUNCTION(execGive);
+
+
 Y_API UClass* Z_Construct_UClass_APlayerControllerBase_NoRegister();
 
 #define FID_Documents_Unreal_Projects_y_Source_y_Public_Player_PlayerControllerBase_h_12_INCLASS_NO_PURE_DECLS \
@@ -46,6 +51,7 @@ public: \
 #define FID_Documents_Unreal_Projects_y_Source_y_Public_Player_PlayerControllerBase_h_12_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
+	FID_Documents_Unreal_Projects_y_Source_y_Public_Player_PlayerControllerBase_h_12_RPC_WRAPPERS_NO_PURE_DECLS \
 	FID_Documents_Unreal_Projects_y_Source_y_Public_Player_PlayerControllerBase_h_12_INCLASS_NO_PURE_DECLS \
 	FID_Documents_Unreal_Projects_y_Source_y_Public_Player_PlayerControllerBase_h_12_ENHANCED_CONSTRUCTORS \
 private: \

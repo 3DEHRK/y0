@@ -32,6 +32,7 @@ private:
 
 	UHorizontalBox* RootBox = nullptr;
 	TArray<TObjectPtr<UInventorySlotWidget>> Slots;
+	UTextBlock* FallbackLabel = nullptr;
 
 	UTexture2D* GetOrMakeIcon(int32 TypeId) const;
 };

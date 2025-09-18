@@ -17,6 +17,12 @@
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 
 // ********** Begin Class ABuildableActor **********************************************************
+#define FID_Documents_Unreal_Projects_y_Source_y_Public_Buildables_BuildableActor_h_16_RPC_WRAPPERS_NO_PURE_DECLS \
+	DECLARE_FUNCTION(execOnRep_RotationTurns); \
+	DECLARE_FUNCTION(execOnRep_GridAnchor); \
+	DECLARE_FUNCTION(execOnRep_TypeId);
+
+
 Y_API UClass* Z_Construct_UClass_ABuildableActor_NoRegister();
 
 #define FID_Documents_Unreal_Projects_y_Source_y_Public_Buildables_BuildableActor_h_16_INCLASS_NO_PURE_DECLS \
@@ -52,6 +58,7 @@ public: \
 #define FID_Documents_Unreal_Projects_y_Source_y_Public_Buildables_BuildableActor_h_16_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
+	FID_Documents_Unreal_Projects_y_Source_y_Public_Buildables_BuildableActor_h_16_RPC_WRAPPERS_NO_PURE_DECLS \
 	FID_Documents_Unreal_Projects_y_Source_y_Public_Buildables_BuildableActor_h_16_INCLASS_NO_PURE_DECLS \
 	FID_Documents_Unreal_Projects_y_Source_y_Public_Buildables_BuildableActor_h_16_ENHANCED_CONSTRUCTORS \
 private: \

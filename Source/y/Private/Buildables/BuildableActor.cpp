@@ -3,6 +3,7 @@
 #include "Engine/World.h"
 #include "Net/UnrealNetwork.h"
 #include "Algo/Unique.h"
+#include "Registry/BuildableRegistry.h"
 
 ABuildableActor::ABuildableActor()
 {
@@ -32,6 +33,11 @@ void ABuildableActor::BeginPlay()
 				Grid->SetCellsOccupiedByActor(Cells, this);
 			}
 		}
+	}
+	else
+	{
+		// On clients, ensure initial transform/mesh setup after replication
+		ApplyTransformFromGrid();
 	}
 }
 
@@ -121,5 +127,34 @@ void ABuildableActor::InitializePlaced(int32 InTypeId, const FIntPoint& InAnchor
 	{
 		Mesh->SetStaticMesh(OptionalMesh);
 	}
+	ApplyTransformFromGrid();
+}
+
+void ABuildableActor::OnRep_TypeId()
+{
+	// Resolve mesh from registry if needed (optional)
+	if (UWorld* World = GetWorld())
+	{
+		if (!Mesh || Mesh->GetStaticMesh()) return; // already set
+		if (UBuildableRegistry* Reg = World->GetGameInstance()->GetSubsystem<UBuildableRegistry>())
+		{
+			if (const UBuildableRegistry::FBuildableDef* Def = Reg->Get(TypeId))
+			{
+				if (Def->Mesh)
+				{
+					Mesh->SetStaticMesh(Def->Mesh);
+				}
+			}
+		}
+	}
+}
+
+void ABuildableActor::OnRep_GridAnchor()
+{
+	ApplyTransformFromGrid();
+}
+
+void ABuildableActor::OnRep_RotationTurns()
+{
 	ApplyTransformFromGrid();
 }

@@ -4,6 +4,11 @@
 #include "Registry/BuildableRegistry.h"
 #include "Blueprint/WidgetTree.h"
 #include "Engine/Texture2D.h"
+#include "Components/TextBlock.h"
+#include "Components/Overlay.h"
+#include "Components/OverlaySlot.h"
+#include "Components/HorizontalBoxSlot.h"
+#include "Components/SizeBox.h"
 
 void UInventoryWidget::Setup(UInventoryComponent* InInv, UBuildableRegistry* InReg)
 {
@@ -15,6 +20,9 @@ void UInventoryWidget::Setup(UInventoryComponent* InInv, UBuildableRegistry* InR
 		Inventory->OnInventoryChanged.AddUObject(this, &UInventoryWidget::Refresh);
 		Inventory->OnActiveSlotChanged.AddUObject(this, &UInventoryWidget::Refresh);
 	}
+
+	// Ensure an initial fill even if replication already happened before widget creation
+	Refresh();
 }
 
 void UInventoryWidget::NativeConstruct()
@@ -27,45 +35,72 @@ void UInventoryWidget::NativeConstruct()
 TSharedRef<SWidget> UInventoryWidget::RebuildWidget()
 {
 	Slots.Reset();
+
+	// Root overlay with a horizontal box and a fallback label
+	UOverlay* RootOverlay = WidgetTree->ConstructWidget<UOverlay>(UOverlay::StaticClass(), TEXT("InventoryRootOverlay"));
+	WidgetTree->RootWidget = RootOverlay;
+
 	RootBox = WidgetTree->ConstructWidget<UHorizontalBox>(UHorizontalBox::StaticClass(), TEXT("RootBox"));
-	WidgetTree->RootWidget = RootBox;
+	if (RootOverlay)
+	{
+		UOverlaySlot* BoxSlot = RootOverlay->AddChildToOverlay(RootBox);
+		if (BoxSlot)
+		{
+			BoxSlot->SetHorizontalAlignment(HAlign_Center);
+			BoxSlot->SetVerticalAlignment(VAlign_Bottom);
+			BoxSlot->SetPadding(FMargin(8.f));
+		}
+	}
 
 	for (int32 i = 0; i < 8; ++i)
 	{
 		UInventorySlotWidget* NewSlot = WidgetTree->ConstructWidget<UInventorySlotWidget>(UInventorySlotWidget::StaticClass());
 		Slots.Add(NewSlot);
-		RootBox->AddChildToHorizontalBox(NewSlot);
+		UHorizontalBoxSlot* HS = RootBox->AddChildToHorizontalBox(NewSlot);
+		if (HS)
+		{
+			HS->SetPadding(FMargin(2.f));
+		}
+	}
+
+	// Add fallback label used to show selected item name
+	FallbackLabel = WidgetTree->ConstructWidget<UTextBlock>(UTextBlock::StaticClass(), TEXT("InventorySelectedLabel"));
+	FallbackLabel->SetText(FText::FromString(TEXT("InventoryUI")));
+	FallbackLabel->SetColorAndOpacity(FSlateColor(FLinearColor::Yellow));
+	FallbackLabel->SetJustification(ETextJustify::Center);
+	if (RootOverlay)
+	{
+		UOverlaySlot* TextSlot = RootOverlay->AddChildToOverlay(FallbackLabel);
+		if (TextSlot)
+		{
+			TextSlot->SetHorizontalAlignment(HAlign_Center);
+			TextSlot->SetVerticalAlignment(VAlign_Bottom);
+			TextSlot->SetPadding(FMargin(8.f, 8.f, 8.f, 80.f));
+		}
 	}
 
 	return Super::RebuildWidget();
 }
 
-static UTexture2D* CreateSolidIconTransient(int32 TypeId)
+static UTexture2D* GetDefaultIcon()
 {
-	const int32 Size = 32;
-	UTexture2D* Tex = UTexture2D::CreateTransient(Size, Size, PF_B8G8R8A8);
-	Tex->CompressionSettings = TC_Default;
-	Tex->SRGB = true;
-	Tex->AddToRoot();
-	Tex->UpdateResource();
-
-	// Random color per type id for visual distinction
-	FRandomStream Rng(TypeId);
-	FColor Color(Rng.RandRange(64,255), Rng.RandRange(64,255), Rng.RandRange(64,255), 255);
-
-	// Note: For simplicity, not writing CPU pixels here; could use brush tint instead.
-	return Tex;
+	// Load a visible built-in engine texture (white square)
+	return LoadObject<UTexture2D>(nullptr, TEXT("/Engine/EngineResources/WhiteSquareTexture.WhiteSquareTexture"));
 }
 
 UTexture2D* UInventoryWidget::GetOrMakeIcon(int32 TypeId) const
 {
-	if (!Registry.IsValid()) return nullptr;
-	const UBuildableRegistry::FBuildableDef* Def = Registry->Get(TypeId);
-	if (Def && Def->Icon)
+	if (Registry.IsValid())
 	{
-		return Def->Icon;
+		if (const UBuildableRegistry::FBuildableDef* Def = Registry->Get(TypeId))
+		{
+			if (Def->Icon)
+			{
+				return Def->Icon;
+			}
+		}
 	}
-	return CreateSolidIconTransient(TypeId);
+	return GetDefaultIcon();
 }
 
 void UInventoryWidget::Refresh()
@@ -81,5 +116,25 @@ void UInventoryWidget::Refresh()
 		const FItemStack& Stack = Inventory->Slots[i];
 		UTexture2D* Icon = GetOrMakeIcon(Stack.TypeId);
 		SlotWidget->SetData(Stack, Icon, Active == i);
+	}
+
+	// Update label with selected item name
+	if (FallbackLabel)
+	{
+		FString Label = TEXT("Selected: ");
+		if (Inventory->Slots.IsValidIndex(Active))
+		{
+			const FItemStack& S = Inventory->Slots[Active];
+			if (S.TypeId != 0)
+			{
+				Label += (S.Name.Len() > 0) ? S.Name : FString::Printf(TEXT("Type %d"), S.TypeId);
+				Label += FString::Printf(TEXT(" x%d"), S.Count);
+			}
+			else
+			{
+				Label += TEXT("Empty");
+			}
+		}
+		FallbackLabel->SetText(FText::FromString(Label));
 	}
 }

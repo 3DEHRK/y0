@@ -87,9 +87,73 @@ UScriptStruct* Z_Construct_UScriptStruct_FItemStack()
 }
 // ********** End ScriptStruct FItemStack **********************************************************
 
+// ********** Begin Class UInventoryComponent Function OnRep_ActiveSlot ****************************
+struct Z_Construct_UFunction_UInventoryComponent_OnRep_ActiveSlot_Statics
+{
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/Inventory/InventoryComponent.h" },
+	};
+#endif // WITH_METADATA
+	static const UECodeGen_Private::FFunctionParams FuncParams;
+};
+const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_UInventoryComponent_OnRep_ActiveSlot_Statics::FuncParams = { { (UObject*(*)())Z_Construct_UClass_UInventoryComponent, nullptr, "OnRep_ActiveSlot", nullptr, 0, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00020401, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_UInventoryComponent_OnRep_ActiveSlot_Statics::Function_MetaDataParams), Z_Construct_UFunction_UInventoryComponent_OnRep_ActiveSlot_Statics::Function_MetaDataParams)},  };
+UFunction* Z_Construct_UFunction_UInventoryComponent_OnRep_ActiveSlot()
+{
+	static UFunction* ReturnFunction = nullptr;
+	if (!ReturnFunction)
+	{
+		UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_UInventoryComponent_OnRep_ActiveSlot_Statics::FuncParams);
+	}
+	return ReturnFunction;
+}
+DEFINE_FUNCTION(UInventoryComponent::execOnRep_ActiveSlot)
+{
+	P_FINISH;
+	P_NATIVE_BEGIN;
+	P_THIS->OnRep_ActiveSlot();
+	P_NATIVE_END;
+}
+// ********** End Class UInventoryComponent Function OnRep_ActiveSlot ******************************
+
+// ********** Begin Class UInventoryComponent Function OnRep_Slots *********************************
+struct Z_Construct_UFunction_UInventoryComponent_OnRep_Slots_Statics
+{
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/Inventory/InventoryComponent.h" },
+	};
+#endif // WITH_METADATA
+	static const UECodeGen_Private::FFunctionParams FuncParams;
+};
+const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_UInventoryComponent_OnRep_Slots_Statics::FuncParams = { { (UObject*(*)())Z_Construct_UClass_UInventoryComponent, nullptr, "OnRep_Slots", nullptr, 0, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00020401, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_UInventoryComponent_OnRep_Slots_Statics::Function_MetaDataParams), Z_Construct_UFunction_UInventoryComponent_OnRep_Slots_Statics::Function_MetaDataParams)},  };
+UFunction* Z_Construct_UFunction_UInventoryComponent_OnRep_Slots()
+{
+	static UFunction* ReturnFunction = nullptr;
+	if (!ReturnFunction)
+	{
+		UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_UInventoryComponent_OnRep_Slots_Statics::FuncParams);
+	}
+	return ReturnFunction;
+}
+DEFINE_FUNCTION(UInventoryComponent::execOnRep_Slots)
+{
+	P_FINISH;
+	P_NATIVE_BEGIN;
+	P_THIS->OnRep_Slots();
+	P_NATIVE_END;
+}
+// ********** End Class UInventoryComponent Function OnRep_Slots ***********************************
+
 // ********** Begin Class UInventoryComponent ******************************************************
 void UInventoryComponent::StaticRegisterNativesUInventoryComponent()
 {
+	UClass* Class = UInventoryComponent::StaticClass();
+	static const FNameNativePtrPair Funcs[] = {
+		{ "OnRep_ActiveSlot", &UInventoryComponent::execOnRep_ActiveSlot },
+		{ "OnRep_Slots", &UInventoryComponent::execOnRep_Slots },
+	};
+	FNativeFunctionRegistrar::RegisterFunctions(Class, Funcs, UE_ARRAY_COUNT(Funcs));
 }
 FClassRegistrationInfo Z_Registration_Info_UClass_UInventoryComponent;
 UClass* UInventoryComponent::GetPrivateStaticClass()
@@ -146,14 +210,19 @@ struct Z_Construct_UClass_UInventoryComponent_Statics
 	static const UECodeGen_Private::FBytePropertyParams NewProp_ActiveSlot;
 	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 	static UObject* (*const DependentSingletons[])();
+	static constexpr FClassFunctionLinkInfo FuncInfo[] = {
+		{ &Z_Construct_UFunction_UInventoryComponent_OnRep_ActiveSlot, "OnRep_ActiveSlot" }, // 3574664425
+		{ &Z_Construct_UFunction_UInventoryComponent_OnRep_Slots, "OnRep_Slots" }, // 1052818428
+	};
+	static_assert(UE_ARRAY_COUNT(FuncInfo) < 2048);
 	static constexpr FCppClassTypeInfoStatic StaticCppClassTypeInfo = {
 		TCppClassTypeTraits<UInventoryComponent>::IsAbstract,
 	};
 	static const UECodeGen_Private::FClassParams ClassParams;
 };
 const UECodeGen_Private::FStructPropertyParams Z_Construct_UClass_UInventoryComponent_Statics::NewProp_Slots_Inner = { "Slots", nullptr, (EPropertyFlags)0x0000000000000000, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, 0, Z_Construct_UScriptStruct_FItemStack, METADATA_PARAMS(0, nullptr) }; // 2080487945
-const UECodeGen_Private::FArrayPropertyParams Z_Construct_UClass_UInventoryComponent_Statics::NewProp_Slots = { "Slots", nullptr, (EPropertyFlags)0x0010000000000020, UECodeGen_Private::EPropertyGenFlags::Array, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UInventoryComponent, Slots), EArrayPropertyFlags::None, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_Slots_MetaData), NewProp_Slots_MetaData) }; // 2080487945
-const UECodeGen_Private::FBytePropertyParams Z_Construct_UClass_UInventoryComponent_Statics::NewProp_ActiveSlot = { "ActiveSlot", nullptr, (EPropertyFlags)0x0010000000000020, UECodeGen_Private::EPropertyGenFlags::Byte, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UInventoryComponent, ActiveSlot), nullptr, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ActiveSlot_MetaData), NewProp_ActiveSlot_MetaData) };
+const UECodeGen_Private::FArrayPropertyParams Z_Construct_UClass_UInventoryComponent_Statics::NewProp_Slots = { "Slots", "OnRep_Slots", (EPropertyFlags)0x0010000100000020, UECodeGen_Private::EPropertyGenFlags::Array, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UInventoryComponent, Slots), EArrayPropertyFlags::None, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_Slots_MetaData), NewProp_Slots_MetaData) }; // 2080487945
+const UECodeGen_Private::FBytePropertyParams Z_Construct_UClass_UInventoryComponent_Statics::NewProp_ActiveSlot = { "ActiveSlot", "OnRep_ActiveSlot", (EPropertyFlags)0x0010000100000020, UECodeGen_Private::EPropertyGenFlags::Byte, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UInventoryComponent, ActiveSlot), nullptr, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ActiveSlot_MetaData), NewProp_ActiveSlot_MetaData) };
 const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_UInventoryComponent_Statics::PropPointers[] = {
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UInventoryComponent_Statics::NewProp_Slots_Inner,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UInventoryComponent_Statics::NewProp_Slots,
@@ -170,11 +239,11 @@ const UECodeGen_Private::FClassParams Z_Construct_UClass_UInventoryComponent_Sta
 	"Engine",
 	&StaticCppClassTypeInfo,
 	DependentSingletons,
-	nullptr,
+	FuncInfo,
 	Z_Construct_UClass_UInventoryComponent_Statics::PropPointers,
 	nullptr,
 	UE_ARRAY_COUNT(DependentSingletons),
-	0,
+	UE_ARRAY_COUNT(FuncInfo),
 	UE_ARRAY_COUNT(Z_Construct_UClass_UInventoryComponent_Statics::PropPointers),
 	0,
 	0x00B000A4u,
@@ -210,10 +279,10 @@ struct Z_CompiledInDeferFile_FID_Documents_Unreal_Projects_y_Source_y_Public_Inv
 		{ FItemStack::StaticStruct, Z_Construct_UScriptStruct_FItemStack_Statics::NewStructOps, TEXT("ItemStack"), &Z_Registration_Info_UScriptStruct_FItemStack, CONSTRUCT_RELOAD_VERSION_INFO(FStructReloadVersionInfo, sizeof(FItemStack), 2080487945U) },
 	};
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_UInventoryComponent, UInventoryComponent::StaticClass, TEXT("UInventoryComponent"), &Z_Registration_Info_UClass_UInventoryComponent, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UInventoryComponent), 1939840443U) },
+		{ Z_Construct_UClass_UInventoryComponent, UInventoryComponent::StaticClass, TEXT("UInventoryComponent"), &Z_Registration_Info_UClass_UInventoryComponent, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UInventoryComponent), 262619058U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Documents_Unreal_Projects_y_Source_y_Public_Inventory_InventoryComponent_h__Script_y_3846867610(TEXT("/Script/y"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Documents_Unreal_Projects_y_Source_y_Public_Inventory_InventoryComponent_h__Script_y_1165702046(TEXT("/Script/y"),
 	Z_CompiledInDeferFile_FID_Documents_Unreal_Projects_y_Source_y_Public_Inventory_InventoryComponent_h__Script_y_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_Documents_Unreal_Projects_y_Source_y_Public_Inventory_InventoryComponent_h__Script_y_Statics::ClassInfo),
 	Z_CompiledInDeferFile_FID_Documents_Unreal_Projects_y_Source_y_Public_Inventory_InventoryComponent_h__Script_y_Statics::ScriptStructInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_Documents_Unreal_Projects_y_Source_y_Public_Inventory_InventoryComponent_h__Script_y_Statics::ScriptStructInfo),
 	nullptr, 0);

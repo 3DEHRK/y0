@@ -20,9 +20,109 @@ Y_API UClass* Z_Construct_UClass_ABuildableActor();
 Y_API UClass* Z_Construct_UClass_ABuildableActor_NoRegister();
 // ********** End Cross Module References **********************************************************
 
+// ********** Begin Class ABuildableActor Function OnRep_GridAnchor ********************************
+struct Z_Construct_UFunction_ABuildableActor_OnRep_GridAnchor_Statics
+{
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/Buildables/BuildableActor.h" },
+	};
+#endif // WITH_METADATA
+	static const UECodeGen_Private::FFunctionParams FuncParams;
+};
+const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_ABuildableActor_OnRep_GridAnchor_Statics::FuncParams = { { (UObject*(*)())Z_Construct_UClass_ABuildableActor, nullptr, "OnRep_GridAnchor", nullptr, 0, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00080401, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_ABuildableActor_OnRep_GridAnchor_Statics::Function_MetaDataParams), Z_Construct_UFunction_ABuildableActor_OnRep_GridAnchor_Statics::Function_MetaDataParams)},  };
+UFunction* Z_Construct_UFunction_ABuildableActor_OnRep_GridAnchor()
+{
+	static UFunction* ReturnFunction = nullptr;
+	if (!ReturnFunction)
+	{
+		UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_ABuildableActor_OnRep_GridAnchor_Statics::FuncParams);
+	}
+	return ReturnFunction;
+}
+DEFINE_FUNCTION(ABuildableActor::execOnRep_GridAnchor)
+{
+	P_FINISH;
+	P_NATIVE_BEGIN;
+	P_THIS->OnRep_GridAnchor();
+	P_NATIVE_END;
+}
+// ********** End Class ABuildableActor Function OnRep_GridAnchor **********************************
+
+// ********** Begin Class ABuildableActor Function OnRep_RotationTurns *****************************
+struct Z_Construct_UFunction_ABuildableActor_OnRep_RotationTurns_Statics
+{
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/Buildables/BuildableActor.h" },
+	};
+#endif // WITH_METADATA
+	static const UECodeGen_Private::FFunctionParams FuncParams;
+};
+const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_ABuildableActor_OnRep_RotationTurns_Statics::FuncParams = { { (UObject*(*)())Z_Construct_UClass_ABuildableActor, nullptr, "OnRep_RotationTurns", nullptr, 0, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00080401, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_ABuildableActor_OnRep_RotationTurns_Statics::Function_MetaDataParams), Z_Construct_UFunction_ABuildableActor_OnRep_RotationTurns_Statics::Function_MetaDataParams)},  };
+UFunction* Z_Construct_UFunction_ABuildableActor_OnRep_RotationTurns()
+{
+	static UFunction* ReturnFunction = nullptr;
+	if (!ReturnFunction)
+	{
+		UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_ABuildableActor_OnRep_RotationTurns_Statics::FuncParams);
+	}
+	return ReturnFunction;
+}
+DEFINE_FUNCTION(ABuildableActor::execOnRep_RotationTurns)
+{
+	P_FINISH;
+	P_NATIVE_BEGIN;
+	P_THIS->OnRep_RotationTurns();
+	P_NATIVE_END;
+}
+// ********** End Class ABuildableActor Function OnRep_RotationTurns *******************************
+
+// ********** Begin Class ABuildableActor Function OnRep_TypeId ************************************
+struct Z_Construct_UFunction_ABuildableActor_OnRep_TypeId_Statics
+{
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
+#if !UE_BUILD_SHIPPING
+		{ "Comment", "// Grid replicated properties\n" },
+#endif
+		{ "ModuleRelativePath", "Public/Buildables/BuildableActor.h" },
+#if !UE_BUILD_SHIPPING
+		{ "ToolTip", "Grid replicated properties" },
+#endif
+	};
+#endif // WITH_METADATA
+	static const UECodeGen_Private::FFunctionParams FuncParams;
+};
+const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_ABuildableActor_OnRep_TypeId_Statics::FuncParams = { { (UObject*(*)())Z_Construct_UClass_ABuildableActor, nullptr, "OnRep_TypeId", nullptr, 0, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00080401, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_ABuildableActor_OnRep_TypeId_Statics::Function_MetaDataParams), Z_Construct_UFunction_ABuildableActor_OnRep_TypeId_Statics::Function_MetaDataParams)},  };
+UFunction* Z_Construct_UFunction_ABuildableActor_OnRep_TypeId()
+{
+	static UFunction* ReturnFunction = nullptr;
+	if (!ReturnFunction)
+	{
+		UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_ABuildableActor_OnRep_TypeId_Statics::FuncParams);
+	}
+	return ReturnFunction;
+}
+DEFINE_FUNCTION(ABuildableActor::execOnRep_TypeId)
+{
+	P_FINISH;
+	P_NATIVE_BEGIN;
+	P_THIS->OnRep_TypeId();
+	P_NATIVE_END;
+}
+// ********** End Class ABuildableActor Function OnRep_TypeId **************************************
+
 // ********** Begin Class ABuildableActor **********************************************************
 void ABuildableActor::StaticRegisterNativesABuildableActor()
 {
+	UClass* Class = ABuildableActor::StaticClass();
+	static const FNameNativePtrPair Funcs[] = {
+		{ "OnRep_GridAnchor", &ABuildableActor::execOnRep_GridAnchor },
+		{ "OnRep_RotationTurns", &ABuildableActor::execOnRep_RotationTurns },
+		{ "OnRep_TypeId", &ABuildableActor::execOnRep_TypeId },
+	};
+	FNativeFunctionRegistrar::RegisterFunctions(Class, Funcs, UE_ARRAY_COUNT(Funcs));
 }
 FClassRegistrationInfo Z_Registration_Info_UClass_ABuildableActor;
 UClass* ABuildableActor::GetPrivateStaticClass()
@@ -66,13 +166,7 @@ struct Z_Construct_UClass_ABuildableActor_Statics
 		{ "ModuleRelativePath", "Public/Buildables/BuildableActor.h" },
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_TypeId_MetaData[] = {
-#if !UE_BUILD_SHIPPING
-		{ "Comment", "// Grid replicated properties\n" },
-#endif
 		{ "ModuleRelativePath", "Public/Buildables/BuildableActor.h" },
-#if !UE_BUILD_SHIPPING
-		{ "ToolTip", "Grid replicated properties" },
-#endif
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_GridAnchor_MetaData[] = {
 		{ "ModuleRelativePath", "Public/Buildables/BuildableActor.h" },
@@ -98,15 +192,21 @@ struct Z_Construct_UClass_ABuildableActor_Statics
 	static const UECodeGen_Private::FArrayPropertyParams NewProp_Footprint;
 	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 	static UObject* (*const DependentSingletons[])();
+	static constexpr FClassFunctionLinkInfo FuncInfo[] = {
+		{ &Z_Construct_UFunction_ABuildableActor_OnRep_GridAnchor, "OnRep_GridAnchor" }, // 167841196
+		{ &Z_Construct_UFunction_ABuildableActor_OnRep_RotationTurns, "OnRep_RotationTurns" }, // 727148198
+		{ &Z_Construct_UFunction_ABuildableActor_OnRep_TypeId, "OnRep_TypeId" }, // 1979700320
+	};
+	static_assert(UE_ARRAY_COUNT(FuncInfo) < 2048);
 	static constexpr FCppClassTypeInfoStatic StaticCppClassTypeInfo = {
 		TCppClassTypeTraits<ABuildableActor>::IsAbstract,
 	};
 	static const UECodeGen_Private::FClassParams ClassParams;
 };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ABuildableActor_Statics::NewProp_Mesh = { "Mesh", nullptr, (EPropertyFlags)0x00200800000a0009, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ABuildableActor, Mesh), Z_Construct_UClass_UStaticMeshComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_Mesh_MetaData), NewProp_Mesh_MetaData) };
-const UECodeGen_Private::FIntPropertyParams Z_Construct_UClass_ABuildableActor_Statics::NewProp_TypeId = { "TypeId", nullptr, (EPropertyFlags)0x0020080000000020, UECodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ABuildableActor, TypeId), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_TypeId_MetaData), NewProp_TypeId_MetaData) };
-const UECodeGen_Private::FStructPropertyParams Z_Construct_UClass_ABuildableActor_Statics::NewProp_GridAnchor = { "GridAnchor", nullptr, (EPropertyFlags)0x0020080000000020, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ABuildableActor, GridAnchor), Z_Construct_UScriptStruct_FIntPoint, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_GridAnchor_MetaData), NewProp_GridAnchor_MetaData) };
-const UECodeGen_Private::FBytePropertyParams Z_Construct_UClass_ABuildableActor_Statics::NewProp_RotationTurns = { "RotationTurns", nullptr, (EPropertyFlags)0x0020080000000020, UECodeGen_Private::EPropertyGenFlags::Byte, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ABuildableActor, RotationTurns), nullptr, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_RotationTurns_MetaData), NewProp_RotationTurns_MetaData) };
+const UECodeGen_Private::FIntPropertyParams Z_Construct_UClass_ABuildableActor_Statics::NewProp_TypeId = { "TypeId", "OnRep_TypeId", (EPropertyFlags)0x0020080100000020, UECodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ABuildableActor, TypeId), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_TypeId_MetaData), NewProp_TypeId_MetaData) };
+const UECodeGen_Private::FStructPropertyParams Z_Construct_UClass_ABuildableActor_Statics::NewProp_GridAnchor = { "GridAnchor", "OnRep_GridAnchor", (EPropertyFlags)0x0020080100000020, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ABuildableActor, GridAnchor), Z_Construct_UScriptStruct_FIntPoint, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_GridAnchor_MetaData), NewProp_GridAnchor_MetaData) };
+const UECodeGen_Private::FBytePropertyParams Z_Construct_UClass_ABuildableActor_Statics::NewProp_RotationTurns = { "RotationTurns", "OnRep_RotationTurns", (EPropertyFlags)0x0020080100000020, UECodeGen_Private::EPropertyGenFlags::Byte, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ABuildableActor, RotationTurns), nullptr, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_RotationTurns_MetaData), NewProp_RotationTurns_MetaData) };
 const UECodeGen_Private::FStructPropertyParams Z_Construct_UClass_ABuildableActor_Statics::NewProp_Footprint_Inner = { "Footprint", nullptr, (EPropertyFlags)0x0000000000000000, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, 0, Z_Construct_UScriptStruct_FIntPoint, METADATA_PARAMS(0, nullptr) };
 const UECodeGen_Private::FArrayPropertyParams Z_Construct_UClass_ABuildableActor_Statics::NewProp_Footprint = { "Footprint", nullptr, (EPropertyFlags)0x0020080000000000, UECodeGen_Private::EPropertyGenFlags::Array, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ABuildableActor, Footprint), EArrayPropertyFlags::None, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_Footprint_MetaData), NewProp_Footprint_MetaData) };
 const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_ABuildableActor_Statics::PropPointers[] = {
@@ -128,11 +228,11 @@ const UECodeGen_Private::FClassParams Z_Construct_UClass_ABuildableActor_Statics
 	"Engine",
 	&StaticCppClassTypeInfo,
 	DependentSingletons,
-	nullptr,
+	FuncInfo,
 	Z_Construct_UClass_ABuildableActor_Statics::PropPointers,
 	nullptr,
 	UE_ARRAY_COUNT(DependentSingletons),
-	0,
+	UE_ARRAY_COUNT(FuncInfo),
 	UE_ARRAY_COUNT(Z_Construct_UClass_ABuildableActor_Statics::PropPointers),
 	0,
 	0x009001A4u,
@@ -167,10 +267,10 @@ ABuildableActor::~ABuildableActor() {}
 struct Z_CompiledInDeferFile_FID_Documents_Unreal_Projects_y_Source_y_Public_Buildables_BuildableActor_h__Script_y_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_ABuildableActor, ABuildableActor::StaticClass, TEXT("ABuildableActor"), &Z_Registration_Info_UClass_ABuildableActor, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ABuildableActor), 2451071335U) },
+		{ Z_Construct_UClass_ABuildableActor, ABuildableActor::StaticClass, TEXT("ABuildableActor"), &Z_Registration_Info_UClass_ABuildableActor, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ABuildableActor), 1637460900U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Documents_Unreal_Projects_y_Source_y_Public_Buildables_BuildableActor_h__Script_y_457743890(TEXT("/Script/y"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Documents_Unreal_Projects_y_Source_y_Public_Buildables_BuildableActor_h__Script_y_965808220(TEXT("/Script/y"),
 	Z_CompiledInDeferFile_FID_Documents_Unreal_Projects_y_Source_y_Public_Buildables_BuildableActor_h__Script_y_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_Documents_Unreal_Projects_y_Source_y_Public_Buildables_BuildableActor_h__Script_y_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

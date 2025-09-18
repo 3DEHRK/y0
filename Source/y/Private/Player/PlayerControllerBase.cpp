@@ -49,7 +49,7 @@ void APlayerControllerBase::OnPossess(APawn* InPawn)
 	EnsureInventoryUI();
 }
 
-void APlayerControllerBase::EnsureInventoryUI()
+void APlayerControllerBase::EnsureInventoryUI(bool bForceRecreate)
 {
 	if (!IsLocalController()) return;
 
@@ -60,6 +60,12 @@ void APlayerControllerBase::EnsureInventoryUI()
 
 	UBuildableRegistry* Reg = GetGameInstance() ? GetGameInstance()->GetSubsystem<UBuildableRegistry>() : nullptr;
 
+	if (bForceRecreate && InventoryUI)
+	{
+		InventoryUI->RemoveFromParent();
+		InventoryUI = nullptr;
+	}
+
 	if (!InventoryUI)
 	{
 		InventoryUI = CreateWidget<UInventoryWidget>(this, UInventoryWidget::StaticClass());
@@ -69,6 +75,21 @@ void APlayerControllerBase::EnsureInventoryUI()
 		InventoryUI->Setup(Inv, Reg);
 		InventoryUI->AddToViewport(0);
 	}
+}
+
+void APlayerControllerBase::Give(int32 TypeId, int32 Count)
+{
+	APawn* P = GetPawn();
+	if (!P) return;
+	if (UInventoryComponent* Inv = P->FindComponentByClass<UInventoryComponent>())
+	{
+		Inv->AddItem(TypeId, Count);
+	}
+}
+
+void APlayerControllerBase::RecreateInventoryUI()
+{
+	EnsureInventoryUI(true);
 }
 
 void APlayerControllerBase::MoveForward(float Value)

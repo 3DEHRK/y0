@@ -41,13 +41,20 @@ protected:
 	UStaticMeshComponent* Mesh; // Root
 
 	// Grid replicated properties
-	UPROPERTY(Replicated)
+	UFUNCTION()
+	void OnRep_TypeId();
+	UFUNCTION()
+	void OnRep_GridAnchor();
+	UFUNCTION()
+	void OnRep_RotationTurns();
+
+	UPROPERTY(ReplicatedUsing=OnRep_TypeId)
 	int32 TypeId = 0;
 
-	UPROPERTY(Replicated)
+	UPROPERTY(ReplicatedUsing=OnRep_GridAnchor)
 	FIntPoint GridAnchor = FIntPoint::ZeroValue;
 
-	UPROPERTY(Replicated)
+	UPROPERTY(ReplicatedUsing=OnRep_RotationTurns)
 	uint8 RotationTurns = 0; // 0..3
 
 	// Local footprint offsets (unrotated). Not replicated; same per-class typically.

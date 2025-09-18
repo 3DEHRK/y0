@@ -109,7 +109,7 @@ void UPlacementComponent::ServerPlaceRequest_Implementation(FIntPoint Anchor, ui
 	const FRotator YawRot(0.f, 90.f * static_cast<float>(Rot & 3), 0.f);
 	const FTransform SpawnTM(YawRot, CellCenter);
 
-	ABuildableActor* NewActor = World->SpawnActorDeferred<ABuildableActor>(Def->Class, SpawnTM, Owner, nullptr, ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
+	ABuildableActor* NewActor = World->SpawnActorDeferred<ABuildableActor>(Def->Class, SpawnTM, nullptr, nullptr, ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 	if (!NewActor)
 	{
 		UE_LOG(LogTemp, Error, TEXT("Placement: SpawnActorDeferred failed"));

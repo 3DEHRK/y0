@@ -32,10 +32,15 @@ public:
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
-	UPROPERTY(Replicated)
+	UFUNCTION()
+	void OnRep_Slots();
+	UFUNCTION()
+	void OnRep_ActiveSlot();
+
+	UPROPERTY(ReplicatedUsing=OnRep_Slots)
 	TArray<FItemStack> Slots; // fixed size 8
 
-	UPROPERTY(Replicated)
+	UPROPERTY(ReplicatedUsing=OnRep_ActiveSlot)
 	uint8 ActiveSlot = 0;
 
 	FOnInventoryChanged OnInventoryChanged;

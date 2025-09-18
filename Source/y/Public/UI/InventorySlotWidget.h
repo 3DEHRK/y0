@@ -18,13 +18,13 @@ public:
 	UPROPERTY(meta=(BindWidgetOptional))
 	UTextBlock* CountText;
 
-	// Simple highlight via opacity change
+	// Simple highlight via opacity/border color change
 	void SetData(const FItemStack& Stack, UTexture2D* IconTexture, bool bActive);
 
 protected:
 	virtual void NativeConstruct() override;
+	virtual TSharedRef<SWidget> RebuildWidget() override;
 
 private:
-	// internal helpers
 	void ApplyHighlight(bool bActive);
 };
