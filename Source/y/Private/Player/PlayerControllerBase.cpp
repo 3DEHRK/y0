@@ -3,6 +3,10 @@
 #include "GameFramework/Character.h"
 #include "Player/PlayerCharacter.h"
 #include "Player/PlacementComponent.h"
+#include "Inventory/InventoryComponent.h"
+#include "Registry/BuildableRegistry.h"
+#include "UI/InventoryWidget.h"
+#include "Blueprint/UserWidget.h"
 
 void APlayerControllerBase::SetupInputComponent()
 {
@@ -31,6 +35,27 @@ void APlayerControllerBase::SetupInputComponent()
 	InputComponent->BindAction("Hotbar6", IE_Pressed, this, &APlayerControllerBase::Hotbar6);
 	InputComponent->BindAction("Hotbar7", IE_Pressed, this, &APlayerControllerBase::Hotbar7);
 	InputComponent->BindAction("Hotbar8", IE_Pressed, this, &APlayerControllerBase::Hotbar8);
+}
+
+void APlayerControllerBase::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if (IsLocalController())
+	{
+		APawn* P = GetPawn();
+		if (!P) return;
+		UInventoryComponent* Inv = P->FindComponentByClass<UInventoryComponent>();
+		if (!Inv) return;
+
+		UBuildableRegistry* Reg = GetGameInstance() ? GetGameInstance()->GetSubsystem<UBuildableRegistry>() : nullptr;
+		UInventoryWidget* UI = CreateWidget<UInventoryWidget>(this, UInventoryWidget::StaticClass());
+		if (UI)
+		{
+			UI->Setup(Inv, Reg);
+			UI->AddToViewport(0);
+		}
+	}
 }
 
 void APlayerControllerBase::MoveForward(float Value)

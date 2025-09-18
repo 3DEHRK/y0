@@ -10,6 +10,7 @@ class Y_API APlayerControllerBase : public APlayerController
 	GENERATED_BODY()
 public:
 	virtual void SetupInputComponent() override;
+	virtual void BeginPlay() override;
 
 private:
 	// Movement/look
