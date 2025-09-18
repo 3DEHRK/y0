@@ -20,6 +20,9 @@ public:
 		uint8 RailShapeIfAny = 255; // 255 = not a rail
 	};
 
+	// Subsystem lifecycle
+	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
+
 	// Register and retrieve definitions
 	const FBuildableDef* Get(int32 TypeId) const;
 	void RegisterDef(int32 TypeId, const FBuildableDef& Def);

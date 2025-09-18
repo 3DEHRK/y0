@@ -46,4 +46,7 @@ public:
 	int32 GetActiveTypeId() const;
 	bool TryConsumeActiveOne(); // decrement Count if >0; broadcast OnInventoryChanged; return true/false
 	void AddItem(int32 TypeId, int32 Count); // stack or first empty
+
+protected:
+	virtual void BeginPlay() override;
 };

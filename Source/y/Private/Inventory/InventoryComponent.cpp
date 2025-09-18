@@ -5,6 +5,24 @@ UInventoryComponent::UInventoryComponent()
 	SetIsReplicatedByDefault(true);
 }
 
+void UInventoryComponent::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if (GetOwner() && GetOwner()->HasAuthority())
+	{
+		InitDefaultSlots();
+		if (Slots.Num() >= 1)
+		{
+			Slots[0].TypeId = 1;
+			Slots[0].Count = 99;
+			ActiveSlot = 0;
+			OnInventoryChanged.Broadcast();
+			OnActiveSlotChanged.Broadcast();
+		}
+	}
+}
+
 void UInventoryComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
