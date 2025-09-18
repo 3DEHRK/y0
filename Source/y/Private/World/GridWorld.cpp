@@ -119,9 +119,11 @@ bool AGridWorld::CanPlace(const FGridFootprint& FP) const
 	AccumulateCells(FP, Cells);
 	for (const FIntPoint& C : Cells)
 	{
+		// allow stacking: only block if a different actor already fully occupies the same stack level
 		if (OccupiedCells.Contains(C))
 		{
-			return false;
+			// occupied means at least one actor; allow more by stacking -> do not early out
+			continue;
 		}
 	}
 	return true;
@@ -132,17 +134,9 @@ void AGridWorld::Claim(const FGridFootprint& FP)
 	if (!HasAuthority()) { ensureMsgf(false, TEXT("Claim called on non-authority")); return; }
 	TArray<FIntPoint> Cells;
 	AccumulateCells(FP, Cells);
-	// Pre-check
 	for (const FIntPoint& C : Cells)
 	{
-		if (!ensureMsgf(!OccupiedCells.Contains(C), TEXT("Attempting to claim occupied cell (%d,%d)"), C.X, C.Y))
-		{
-			return;
-		}
-	}
-	for (const FIntPoint& C : Cells)
-	{
-		OccupiedCells.Add(C);
+		OccupiedCells.Add(C); // allow multiple occupancy for stacking
 	}
 }
 
@@ -154,7 +148,14 @@ void AGridWorld::Release(const FGridFootprint& FP)
 	for (const FIntPoint& C : Cells)
 	{
 		OccupiedCells.Remove(C);
-		CellToActor.Remove(C);
+		if (TArray<TWeakObjectPtr<AActor>>* Arr = CellToActors.Find(C))
+		{
+			Arr->RemoveAll([](const TWeakObjectPtr<AActor>& P){ return !P.IsValid(); });
+			if (Arr->Num() == 0)
+			{
+				CellToActors.Remove(C);
+			}
+		}
 	}
 }
 
@@ -165,13 +166,13 @@ void AGridWorld::SetCellsOccupiedByActor(const TArray<FIntPoint>& Cells, AActor*
 
 	for (const FIntPoint& C : Cells)
 	{
-		// Enforce exclusivity
-		if (!ensureMsgf(!OccupiedCells.Contains(C) || (CellToActor.FindRef(C).Get() == Actor), TEXT("Cell already occupied by another actor at (%d,%d)"), C.X, C.Y))
-		{
-			continue;
-		}
 		OccupiedCells.Add(C);
-		CellToActor.Add(C, Actor);
+		TArray<TWeakObjectPtr<AActor>>& List = CellToActors.FindOrAdd(C);
+		// push if not already top for this actor
+		if (!List.Contains(Actor))
+		{
+			List.Add(Actor);
+		}
 	}
 }
 
@@ -182,19 +183,44 @@ void AGridWorld::ClearCellsOccupiedByActor(const TArray<FIntPoint>& Cells, AActo
 
 	for (const FIntPoint& C : Cells)
 	{
-		TWeakObjectPtr<AActor>* Existing = CellToActor.Find(C);
-		if (Existing && Existing->Get() == Actor)
+		if (TArray<TWeakObjectPtr<AActor>>* List = CellToActors.Find(C))
 		{
-			CellToActor.Remove(C);
-			OccupiedCells.Remove(C);
+			List->Remove(Actor);
+			if (List->Num() == 0)
+			{
+				CellToActors.Remove(C);
+				OccupiedCells.Remove(C);
+			}
 		}
 	}
 }
 
 AActor* AGridWorld::GetActorAtCell(const FIntPoint& Cell) const
 {
-	const TWeakObjectPtr<AActor> Ptr = CellToActor.FindRef(Cell);
-	return Ptr.Get();
+	if (const TArray<TWeakObjectPtr<AActor>>* List = CellToActors.Find(Cell))
+	{
+		for (int32 i = List->Num()-1; i >= 0; --i)
+		{
+			if ((*List)[i].IsValid())
+			{
+				return (*List)[i].Get(); // top-most valid
+			}
+		}
+	}
+	return nullptr;
+}
+
+int32 AGridWorld::GetStackDepth(const FGridFootprint& FP) const
+{
+	TArray<FIntPoint> Cells;
+	AccumulateCells(FP, Cells);
+	int32 MaxDepth = 0;
+	for (const FIntPoint& C : Cells)
+	{
+		const TArray<TWeakObjectPtr<AActor>>* List = CellToActors.Find(C);
+		MaxDepth = FMath::Max(MaxDepth, List ? List->Num() : 0);
+	}
+	return MaxDepth;
 }
 
 AGridWorld* AGridWorld::Get(UWorld* World)

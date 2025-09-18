@@ -92,10 +92,19 @@ void ABuildableActor::ApplySaveData(const FBuildableSave& In)
 
 void ABuildableActor::ApplyTransformFromGrid()
 {
-	// Compute world transform from GridAnchor and RotationTurns, snap to cell center
-	const FVector CellCenter = AGridWorld::GridToWorld(GridAnchor);
+	const FVector Base = AGridWorld::GridToWorld(GridAnchor);
+	float ZOffset = 0.f;
+	if (UWorld* World = GetWorld())
+	{
+		if (AGridWorld* Grid = AGridWorld::Get(World))
+		{
+			AGridWorld::FGridFootprint FP; FP.Anchor = GridAnchor; FP.Offsets = AGridWorld::RotateOffsets90(Footprint, RotationTurns);
+			const int32 Depth = Grid->GetStackDepth(FP);
+			ZOffset = Depth * 100.f; // assume 1m height per block for now
+		}
+	}
 	const FRotator YawRot(0.f, 90.f * static_cast<float>(RotationTurns & 3), 0.f);
-	SetActorTransform(FTransform(YawRot, CellCenter, FVector(1.f)));
+	SetActorTransform(FTransform(YawRot, Base + FVector(0,0,ZOffset), FVector(1.f)));
 }
 
 void ABuildableActor::GetOccupiedCells(TArray<FIntPoint>& Out) const

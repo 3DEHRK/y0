@@ -55,6 +55,9 @@ public:
 	void ClearCellsOccupiedByActor(const TArray<FIntPoint>& Cells, AActor* Actor);
 	AActor* GetActorAtCell(const FIntPoint& Cell) const;
 
+	// Stacking: return current stack height (number of actors already mapped) across the footprint (max over cells).
+	int32 GetStackDepth(const FGridFootprint& FP) const;
+
 	// Find an instance in a world (returns first found or nullptr).
 	static AGridWorld* Get(UWorld* World);
 
@@ -74,5 +77,6 @@ protected:
 
 	// Authoritative state (not replicated)
 	TSet<FIntPoint> OccupiedCells;
-	TMap<FIntPoint, TWeakObjectPtr<AActor>> CellToActor;
+	// Support stacking: keep an array per cell, topmost is last
+	TMap<FIntPoint, TArray<TWeakObjectPtr<AActor>>> CellToActors;
 };
